@@ -3,25 +3,33 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
-group = 'com.maemlab'
-version = '0.1'
+group 'com.maemlab'
+version '0.6.0'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.4'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    implementation 'io.github.mkpaz:atlantafx-base:2.1.0'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:6.0.1'
 }
 
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
     }
-//    withJavadocJar()
-//    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+javadoc {
+    options.addStringOption('Xdoclint:none', '-quiet')
 }
 
 javafx {
@@ -54,10 +62,10 @@ jar {
             'Bundle-Name': 'NexusFX',
             'Bundle-Description': 'A JavaFX widget library with custom components',
             'Bundle-DocURL': 'https://github.com/barmat80/nexusfx/wiki',
-            'Bundle-License': 'https://opensource.org/licenses/MIT', // Or your chosen license
+            'Bundle-License': 'https://opensource.org/licenses/MIT',
             'Bundle-Version': version,
 
-            // If your library uses a specific Java version
+            // Specific Java version
             'Created-By': "Gradle ${gradle.gradleVersion}",
             'Required-JDK-Version': JavaVersion.current(),
 
@@ -65,8 +73,4 @@ jar {
             'Automatic-Module-Name': 'com.maemlab.nexusfx',
         )
     }
-}
-
-test {
-    useJUnitPlatform()
 }
