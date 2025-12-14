@@ -13,21 +13,25 @@ import java.util.function.Consumer;
 public class IconButton extends Button {
     private final static double DEFAULT_BUTTON_WIDTH = 34.0;
 
-    private final String buttonTooltipText;
+    private final String tooltip;
     private final Runnable action;
     private final Consumer<Runnable> runnableConsumer;
     private final Node icon;
 
-    public IconButton(String buttonTooltipText, Runnable action, Node icon) {
-        this(buttonTooltipText, action,null, icon);
+    public IconButton(String tooltip, Node icon) {
+        this(tooltip, null, null, icon);
     }
 
-    public IconButton(String buttonTooltipText, Consumer<Runnable> runnableConsumer, Node icon) {
-        this(buttonTooltipText, null,runnableConsumer, icon);
+    public IconButton(String tooltip, Runnable action, Node icon) {
+        this(tooltip, action, null, icon);
     }
 
-    public IconButton(String buttonTooltipText, Runnable action, Consumer<Runnable> runnableConsumer, Node icon) {
-        this.buttonTooltipText = buttonTooltipText;
+    public IconButton(String tooltip, Consumer<Runnable> runnableConsumer, Node icon) {
+        this(tooltip, null, runnableConsumer, icon);
+    }
+
+    public IconButton(String tooltip, Runnable action, Consumer<Runnable> runnableConsumer, Node icon) {
+        this.tooltip = tooltip;
         this.action = action;
         this.runnableConsumer = runnableConsumer;
         this.icon = icon;
@@ -56,9 +60,17 @@ public class IconButton extends Button {
     }
 
     private void setTooltip(){
-        if (buttonTooltipText != null) {
-            Tooltip tt = new Tooltip(buttonTooltipText);
+        if (tooltip != null) {
+            Tooltip tt = new Tooltip(tooltip);
             setTooltip(tt);
         }
+    }
+
+    public void setAction(Runnable action) {
+        setOnAction(e -> action.run());
+    }
+
+    public void setAction(Consumer<Runnable> action) {
+        setOnAction(e -> runnableConsumer.accept(() -> setDisable(false)));
     }
 }
