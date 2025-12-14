@@ -4,9 +4,9 @@ import com.maemlab.nexusfx.panes.twocolumns.row.*;
 import javafx.scene.layout.GridPane;
 
 public class TwoColumnsPane extends GridPane {
-    private static final int FIRST_COL = 1;
-    private static final int SECOND_COL = 2;
-    private int rowCount = 0;
+    protected static final int FIRST_COL = 1;
+    protected static final int SECOND_COL = 2;
+    protected int rowCount = 0;
 
     public TwoColumnsPane(double hGap, double vGap) {
         setHgap(hGap);// horizontal gap between columns
