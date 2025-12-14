@@ -8,7 +8,7 @@ import javafx.scene.Node;
 
 import java.util.function.Consumer;
 
-public class ToolbarButtonBuilder implements ToolbarButtonBuilders.Button, ToolbarButtonBuilders.StdButton, ToolbarButtonBuilders.CustomButton, ToolbarButtonBuilders.Action, ToolbarButtonBuilders.Optionals {
+public class ToolbarButtonBuilder implements ToolbarButtonBuilders.Button, ToolbarButtonBuilders.StdButton, ToolbarButtonBuilders.CustomButton, ToolbarButtonBuilders.Icon, ToolbarButtonBuilders.Action, ToolbarButtonBuilders.Optionals {
     private final static double DEFAULT_WIDTH = 34.0;
 
     private ToolbarButtonType type;
@@ -34,23 +34,23 @@ public class ToolbarButtonBuilder implements ToolbarButtonBuilders.Button, Toolb
         return this;
     }
 
-    public ToolbarButtonBuilders.Action type(ToolbarButtonType type) {
-        this.type = type;
-        return this;
-    }
-
     public ToolbarButtonBuilders.CustomButton customButton() {
         this.type = ToolbarButtonType.CUSTOM;
         return this;
     }
 
-    public ToolbarButtonBuilders.CustomButton icon(Node icon) {
-        this.icon = icon;
+    public ToolbarButtonBuilders.Icon type(ToolbarButtonType type) {
+        this.type = type;
         return this;
     }
 
-    public ToolbarButtonBuilders.Action style(String style) {
+    public ToolbarButtonBuilders.Icon style(String style) {
         this.style = style;
+        return this;
+    }
+
+    public ToolbarButtonBuilders.Action icon(Node icon) {
+        this.icon = icon;
         return this;
     }
 

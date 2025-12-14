@@ -16,12 +16,15 @@ public interface ToolbarButtonBuilders {
     }
 
     interface StdButton {
-        Action type(ToolbarButtonType type);
+        Icon type(ToolbarButtonType type);
     }
 
     interface CustomButton {
-        CustomButton icon(Node icon);
-        Action style(String style);
+        Icon style(String style);
+    }
+
+    interface Icon {
+        Action icon(Node icon);
     }
 
     interface Action {
