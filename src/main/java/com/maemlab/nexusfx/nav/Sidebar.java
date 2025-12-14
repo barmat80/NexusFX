@@ -24,9 +24,9 @@ public class Sidebar extends ScrollPane {
 		}
 	}
 
-	public Sidebar build(String appName, String appVersion, String iconPath, String headerStyleClass, String footerStyleClass) {
+	public Sidebar build(String appName, String appVersion, String iconURL, String headerStyleClass, String footerStyleClass) {
 		var bp = new BorderPane();
-		bp.setTop(new SidebarHeader(headerStyleClass, appName, iconPath));
+		bp.setTop(new SidebarHeader(headerStyleClass, appName, iconURL));
 		bp.setCenter(sidebarMenu);
 		bp.setBottom(new SidebarFooter(footerStyleClass, appVersion));
 		setContent(bp);
