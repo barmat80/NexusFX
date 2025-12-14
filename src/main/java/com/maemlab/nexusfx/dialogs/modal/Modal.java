@@ -23,20 +23,20 @@ public class Modal {
 	private final ObservableList<Image> icons;
 
 	public Modal(String title, String baseCSS, Region region, ObservableList<Image> icons) {
-		this(title, baseCSS, region, PREF_WIDTH, PREF_HEIGHT, icons);
+		this(title, baseCSS, region, icons, PREF_WIDTH, PREF_HEIGHT);
 	}
 
 	public Modal(String title, String baseCSS, Region region, double width, double height) {
-		this(title, baseCSS, region, width, height, null);
+		this(title, baseCSS, region, null, width, height);
 	}
 
-	public Modal(String title, String baseCSS, Region region, double width, double height, ObservableList<Image> icons) {
+	public Modal(String title, String baseCSS, Region region, ObservableList<Image> icons, double width, double height) {
 		this.modalTitle = title;
         this.baseCSS = baseCSS;
 		this.view = region;
+		this.icons = icons;
 		this.width = width;
 		this.height = height;
-        this.icons = icons;
     }
 
 	public void open() {
