@@ -7,9 +7,13 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class SidebarMenu extends VBox {
 	private static final int SIZE = 48;
 	private final ToggleGroup tg = new ToggleGroup();
+
+	private static final AtomicInteger idCounter = new AtomicInteger(0);
 
 	public SidebarMenu() {
 		setAlignment(Pos.TOP_LEFT);
@@ -17,7 +21,7 @@ public class SidebarMenu extends VBox {
 	}
 
 	public ToggleButton addItem(String label, Node icon, String navbarStyle, Node relatedView) {
-		return  addItem("", label, icon, navbarStyle, relatedView);
+		return  addItem(calcItemId(), label, icon, navbarStyle, relatedView);
 	}
 
 	public ToggleButton addItem(String id, String label, Node icon, String navbarStyle, Node relatedView) {
@@ -29,7 +33,7 @@ public class SidebarMenu extends VBox {
 	}
 
 	public ToggleButton addItem(String label, Node icon, String navbarStyle) {
-		return addItem("", label, icon, navbarStyle);
+		return addItem(calcItemId(), label, icon, navbarStyle);
 	}
 
 	public ToggleButton addItem(String id, String label, Node icon, String navbarStyle) {
@@ -43,5 +47,9 @@ public class SidebarMenu extends VBox {
 		getChildren().add(btn);
 
 		return btn;
+	}
+
+	private String calcItemId() {
+		return "sm_item_" + idCounter.incrementAndGet();
 	}
 }
