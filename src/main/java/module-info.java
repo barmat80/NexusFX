@@ -8,6 +8,7 @@ module NexusFX {
 
     exports com.maemlab.nexusfx;
     exports com.maemlab.nexusfx.dirty;
+    exports com.maemlab.nexusfx.dialogs;
     exports com.maemlab.nexusfx.dialogs.alert;
     exports com.maemlab.nexusfx.dialogs.modal;
     exports com.maemlab.nexusfx.filters;
