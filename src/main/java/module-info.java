@@ -18,5 +18,7 @@ module NexusFX {
     exports com.maemlab.nexusfx.panes.browse;
     exports com.maemlab.nexusfx.panes.twocolumns;
     exports com.maemlab.nexusfx.panes.twocolumns.row;
+    exports com.maemlab.nexusfx.tableview;
+    exports com.maemlab.nexusfx.tableview.cells;
     exports com.maemlab.nexusfx.toolbar;
 }
