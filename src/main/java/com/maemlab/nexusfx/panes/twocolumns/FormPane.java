@@ -9,7 +9,7 @@ public class FormPane extends TwoColumnsPane {
         super(hGap, vGap);
     }
 
-    public void add(BrowseRow browseRow) {
+    public void addRow(BrowseRow browseRow) {
         add(browseRow.getLabel(), FIRST_COL, rowCount);
         add(browseRow.getTextField(), SECOND_COL, rowCount);
         add(browseRow.getButton(), THIRD_COL, rowCount);
