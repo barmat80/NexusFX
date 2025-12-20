@@ -1,6 +1,5 @@
 package com.maemlab.nexusfx.panes.twocolumns.row;
 
-import com.maemlab.nexusfx.filters.UpperCaseFilter;
 import com.maemlab.nexusfx.formatters.DoubleFormatter;
 import com.maemlab.nexusfx.formatters.IntegerFormatter;
 import javafx.beans.binding.BooleanBinding;
@@ -42,21 +41,41 @@ public class TextFieldRow {
     }
 
     protected void setStringProperty(StringProperty bindingProperty) {
-        textField.setTextFormatter(new TextFormatter<>(new UpperCaseFilter()));
         textField.textProperty().bindBidirectional(bindingProperty);
     }
 
+    @SuppressWarnings("unchecked")
     protected void setIntegerProperty(IntegerProperty property) {
-        var formatter = new IntegerFormatter().getTextFormatter();
-        textField.setTextFormatter(formatter);
+        var formatter = (TextFormatter<Integer>) textField.getTextFormatter();
+        if (formatter == null) {
+            formatter = new IntegerFormatter().getTextFormatter();
+            textField.setTextFormatter(formatter);
+        }
         formatter.valueProperty().bindBidirectional(property.asObject());
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void setDoubleProperty(DoubleProperty property) {
+        // Get existing formatter or create a temporary one for binding
+        var formatter = (TextFormatter<Double>) textField.getTextFormatter();
+        if (formatter == null) {
+            formatter = new DoubleFormatter().getTextFormatter();
+            textField.setTextFormatter(formatter);
+        }
+        formatter.valueProperty().bindBidirectional(property.asObject());
+    }
+
+    protected void setStringFormatter(TextFormatter<String> formatter) {
+        textField.setTextFormatter(formatter);
+    }
+
+    protected void setIntegerFormatter(TextFormatter<Integer> formatter) {
+        textField.setTextFormatter(formatter);
         textField.setAlignment(Pos.CENTER_RIGHT);
     }
 
-    protected void setDoubleProperty(DoubleProperty property) {
-        var formatter = new DoubleFormatter().getTextFormatter();
+    protected void setDoubleFormatter(TextFormatter<Double> formatter) {
         textField.setTextFormatter(formatter);
-        formatter.valueProperty().bindBidirectional(property.asObject());
         textField.setAlignment(Pos.CENTER_RIGHT);
     }
 
