@@ -1,16 +1,19 @@
 package com.maemlab.nexusfx.panes.twocolumns.row;
 
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.HPos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
 
 import java.util.function.Consumer;
 
-public class BrowseRowBuilder implements BrowseRowBuilders.TextField, BrowseRowBuilders.Icon, BrowseRowBuilders.Action, BrowseRowBuilders.Optionals {
+public class BrowseRowBuilder implements BrowseRowBuilders.TextField, BrowseRowBuilders.Formatter, BrowseRowBuilders.Property, BrowseRowBuilders.Icon, BrowseRowBuilders.Action, BrowseRowBuilders.Optionals {
 
     private int width;
+    private TextFormatter<String> formatter;
     private StringProperty property;
     private Node icon;
     private Runnable runnable;
@@ -18,8 +21,8 @@ public class BrowseRowBuilder implements BrowseRowBuilders.TextField, BrowseRowB
     private Consumer<Runnable> runnableConsumer;
     private String label;
     private String tooltip;
-//    private StringProperty property;
     private boolean isEditable;
+    private BooleanBinding editableBinding;
 
     private BrowseRowBuilder(){
         this.isEditable = true;
@@ -31,16 +34,30 @@ public class BrowseRowBuilder implements BrowseRowBuilders.TextField, BrowseRowB
     }
 
     @Override
-    public BrowseRowBuilders.TextField width(int width) {
+    public BrowseRowBuilders.Formatter width(int width) {
         if(width <= 0) throw new IllegalArgumentException("Width must be positive");
         this.width = width;
         return this;
     }
 
+    public BrowseRowBuilders.Property withoutFormatter() {
+        return this;
+    }
+
     @Override
-    public BrowseRowBuilders.Icon bindStringProperty(StringProperty property) {
+    public BrowseRowBuilders.Property formatter(TextFormatter<String> stringFormatter) {
+        this.formatter = stringFormatter;
+        return this;
+    }
+
+    @Override
+    public BrowseRowBuilders.Icon stringProperty(StringProperty property) {
         this.property = property;
         return this;
+    }
+
+    interface Formatter {
+        TextFieldRowBuilders.Optionals withoutFormatter();
     }
 
     @Override
@@ -80,6 +97,12 @@ public class BrowseRowBuilder implements BrowseRowBuilders.TextField, BrowseRowB
     }
 
     @Override
+    public BrowseRowBuilders.Optionals setEditableBinding(BooleanBinding binding) {
+        this.editableBinding = binding;
+        return this;
+    }
+
+    @Override
     public BrowseRowBuilders.Optionals setDisabled() {
         this.isEditable = false;
         return this;
@@ -87,8 +110,10 @@ public class BrowseRowBuilder implements BrowseRowBuilders.TextField, BrowseRowB
 
     @Override
     public BrowseRow build() {
-        var row = new BrowseRow().addLabel(buildLabel()).build(this.tooltip, this.icon, this.runnable, this.runnableConsumer, this.width, this.isEditable);
+        var row = new BrowseRow().addLabel(buildLabel()).build(tooltip, icon, runnable, runnableConsumer, width, isEditable);
         if(property != null) row.bindStringProperty(property);
+        if(formatter != null) row.setStringFormatter(formatter);
+        if(editableBinding != null) row.setEditableBinding(editableBinding);
         return row;
     }
 
