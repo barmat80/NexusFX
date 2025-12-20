@@ -14,7 +14,8 @@ public class ComboBoxRowBuilder<T> {
     private Runnable action;
     private final List<T> choices;
     private T defaultValue;
-    private Property<T> bindingProperty;
+    private Property<T> bindProperty;
+    private Property<T> bindBidirectionalProperty;
     private boolean isDisabled;
     private String label;
     private StringBinding extraLabelBinding;
@@ -51,7 +52,12 @@ public class ComboBoxRowBuilder<T> {
     }
 
     public ComboBoxRowBuilder<T> bindSelectionTo(Property<T> bindingProperty) {
-        this.bindingProperty = bindingProperty;
+        this.bindProperty = bindingProperty;
+        return this;
+    }
+
+    public ComboBoxRowBuilder<T> bindBidirectionalSelectionTo(Property<T> bindingProperty) {
+        this.bindBidirectionalProperty = bindingProperty;
         return this;
     }
 
@@ -71,17 +77,18 @@ public class ComboBoxRowBuilder<T> {
     }
 
     public ComboBoxRow<T> build() {
-        var row = new ComboBoxRow<T>().withLabel(buildLabel()).withExtraLabel(buildExtraLabel()).build(this.width, this.choices, this.isDisabled);
-        if(this.action != null) row.setAction(this.action);
-        if(this.defaultValue != null) row.setDefaultValue(this.defaultValue);
-        if(this.bindingProperty != null) row.bindSelectionTo(this.bindingProperty);
+        var row = new ComboBoxRow<T>().withLabel(buildLabel()).withExtraLabel(buildExtraLabel()).build(width, choices, isDisabled);
+        if(action != null) row.setAction(action);
+        if(defaultValue != null) row.setDefaultValue(defaultValue);
+        if(bindProperty != null) row.bindSelectionTo(bindProperty);
+        if(bindBidirectionalProperty != null) row.bindBidirectionalSelectionTo(bindBidirectionalProperty);
         return row;
     }
 
     private Label buildLabel() {
         Label lbl = null;
-        if (this.label != null) {
-            lbl = new Label(this.label);
+        if (label != null) {
+            lbl = new Label(label);
             GridPane.setHalignment(lbl, HPos.RIGHT);
         }
         return lbl;
@@ -89,9 +96,9 @@ public class ComboBoxRowBuilder<T> {
 
     private Label buildExtraLabel() {
         Label lbl = null;
-        if (this.extraLabelBinding != null) {
+        if (extraLabelBinding != null) {
             lbl = new Label();
-            lbl.textProperty().bind(this.extraLabelBinding);
+            lbl.textProperty().bind(extraLabelBinding);
             GridPane.setHalignment(lbl, HPos.LEFT);
         }
         return lbl;

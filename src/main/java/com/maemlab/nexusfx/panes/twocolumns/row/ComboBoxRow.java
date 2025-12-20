@@ -11,6 +11,8 @@ import javafx.scene.layout.HBox;
 import java.util.List;
 
 public class ComboBoxRow<T> {
+    private static final double TOP = 8.0;
+    private static final double LEFT = 10.0;
     private Label label;
     private Label extraLabel;
     private ComboBox<T> comboBox;
@@ -45,8 +47,12 @@ public class ComboBoxRow<T> {
         comboBox.getSelectionModel().select(defaultValue);
     }
 
-    public void bindSelectionTo(Property<T> bindingProperty) {
-        bindingProperty.bind(comboBox.getSelectionModel().selectedItemProperty());
+    public void bindSelectionTo(Property<T> bindProperty) {
+        bindProperty.bind(comboBox.getSelectionModel().selectedItemProperty());
+    }
+
+    public void bindBidirectionalSelectionTo(Property<T> bindBidirectionalProperty) {
+        comboBox.valueProperty().bindBidirectional(bindBidirectionalProperty);
     }
 
     public Label getLabel() {
@@ -66,7 +72,7 @@ public class ComboBoxRow<T> {
         hbox.getChildren().add(comboBox);
         if(extraLabel != null) {
             hbox.getChildren().add(extraLabel);
-            HBox.setMargin(extraLabel, new Insets(8.0, 0.0, 0.0, 10.0));
+            HBox.setMargin(extraLabel, new Insets(TOP, 0.0, 0.0, LEFT));
         }
         return hbox;
     }
